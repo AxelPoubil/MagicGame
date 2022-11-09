@@ -9,7 +9,7 @@ namespace mtg_lite.Models.Cards.CardBacks
 {
     public class CardBack: Card
     {
-        public CardBack() : base("Card Back", new Mana(), Resource.card_back)
+        public CardBack() : base("Card Back", new Mana(), Resource.card_back, true)
         {
         }
     }

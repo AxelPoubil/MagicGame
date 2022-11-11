@@ -26,16 +26,22 @@ namespace mtg_lite.Models.Players
         public Player(string libraryName)
         {
             manaPool = new Mana();
-            battlefield = new Zone(new List<Card>(), this);
-            graveyard = new Zone(new List<Card>(), this);
-            hand = new Zone(new List<Card>(), this);
-            this.library = new Zone(LibraryManager.GetCards(libraryName), this);
+            battlefield = new Battlefield(new List<Card>(), this);
+            graveyard = new Graveyard(new List<Card>(), this);
+            hand = new Hand(new List<Card>(), this);
+            this.library = new Library(LibraryManager.GetCards(libraryName), this);
             Subscribe();
         }
 
         public void Subscribe()
         {
             library.CardRemoved += Library_CardRemoved;
+            hand.CardRemoved += Hand_CardRemoved;
+        }
+
+        private void Hand_CardRemoved(object? sender, Card card)
+        {
+            battlefield.AddCard(card);
         }
 
         private void Library_CardRemoved(object? sender, Cards.Card card)

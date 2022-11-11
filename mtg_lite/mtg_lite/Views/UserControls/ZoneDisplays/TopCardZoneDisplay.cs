@@ -56,6 +56,15 @@ namespace mtg_lite.Views.UserControls.ZoneDisplays
 
         private void cardDisplay_CardClicked(object sender, Models.Cards.Card card)
         {
+            if (zone != null)
+            {
+                if (zone.Name != "Library")
+                {
+                    return;
+                }
+                zone.RemoveCard(card);
+            }
+            
         }
     }
 }

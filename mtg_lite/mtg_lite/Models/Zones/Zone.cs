@@ -16,7 +16,7 @@ namespace mtg_lite.Models.Zones
         protected Player player;
 
         public List<Card> Cards { get { return cards; } }
-        public string Name { get => "Zone"; }
+        public virtual string Name { get => "Zone"; }
         public virtual Card TopCard {
             get
             {

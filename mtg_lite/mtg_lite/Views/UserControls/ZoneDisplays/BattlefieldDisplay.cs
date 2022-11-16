@@ -44,10 +44,6 @@ namespace mtg_lite.Views.UserControls.ZoneDisplays
             grpBattlefield.Text = battlefield.ToString();
             foreach (Card card in battlefield.Cards)
             {
-                if (!card.IsPermanent)
-                {
-                    return;
-                }
                 if (card.GetType()==typeof(Land))
                 {
                     lands.Add(card);

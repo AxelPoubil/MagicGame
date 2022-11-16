@@ -1,4 +1,5 @@
-﻿using mtg_lite.Models.Zones;
+﻿using mtg_lite.Models.Cards;
+using mtg_lite.Models.Zones;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -54,16 +55,28 @@ namespace mtg_lite.Views.UserControls.ZoneDisplays
             DisplayZone();
         }
 
-        private void cardDisplay_CardClicked(object sender, Models.Cards.Card card)
+        private void cardDisplay_CardClicked(object sender, Models.Cards.Card cardt)
         {
-            if (zone != null)
+            try
             {
-                if (zone.Name != "Library")
+                if (zone != null)
                 {
-                    return;
+                    if (zone.Name != "Library")
+                    {
+                        return;
+                    }
+                    var index = zone.Cards.FindIndex(card => card == cardt);
+                    cardt = zone.Cards[index - 1];
+                    zone.RemoveCard(cardt);
                 }
-                zone.RemoveCard(card);
             }
+            catch (Exception ex)
+            {
+                //ne pas ooublier de changer le message.
+                MessageBox.Show(ex.Message);
+            }
+            
+            
             
         }
     }

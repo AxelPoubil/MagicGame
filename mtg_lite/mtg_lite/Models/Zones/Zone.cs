@@ -15,12 +15,12 @@ namespace mtg_lite.Models.Zones
         protected List<Card> cards;
         protected Player player;
 
-        public List<Card> Cards { get { return cards; } }
+        public virtual List<Card> Cards { get { return cards; } }
         public virtual string Name { get => "Zone"; }
         public virtual Card TopCard {
             get
             {
-                if (cards.Count == 0)
+                if (cards.Count == 1 && Name == "Library" || cards.Count == 0)
                 {
                     return new DarkCardBack();
                 }

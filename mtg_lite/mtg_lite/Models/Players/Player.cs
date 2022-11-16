@@ -41,7 +41,15 @@ namespace mtg_lite.Models.Players
 
         private void Hand_CardRemoved(object? sender, Card card)
         {
-            battlefield.AddCard(card);
+            
+            if (card.IsPermanent)
+            {
+                battlefield.AddCard(card);
+            }
+            else
+            {
+                graveyard.AddCard(card);
+            }
         }
 
         private void Library_CardRemoved(object? sender, Cards.Card card)

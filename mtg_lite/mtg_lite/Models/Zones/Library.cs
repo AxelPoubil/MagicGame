@@ -11,10 +11,17 @@ namespace mtg_lite.Models.Zones
     internal class Library : Zone
     {
         public override string Name { get => "Library"; }
+
         public Library(List<Card> cards, Player player) : base(cards, player)
         {
         }
 
+        
+
+        public override string ToString()
+        {
+            return $"{Name} ({cards.Count - 1})";
+        }
 
     }
 }

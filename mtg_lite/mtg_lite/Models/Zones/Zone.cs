@@ -28,9 +28,9 @@ namespace mtg_lite.Models.Zones
             }
         }
 
-        public event EventHandler<List<Card>>? CardsChanged;
-        public event EventHandler<Card>? CardAdded;
-        public event EventHandler<Card>? CardRemoved;
+        public virtual event EventHandler<List<Card>>? CardsChanged;
+        public virtual event EventHandler<Card>? CardAdded;
+        public virtual event EventHandler<Card>? CardRemoved;
 
         public Zone(List<Card> cards, Player player)
         {
@@ -45,7 +45,7 @@ namespace mtg_lite.Models.Zones
             CardsChanged?.Invoke(this, cards);
         }
 
-        public void RemoveCard(Card cardToRemove)
+        public virtual  void  RemoveCard(Card cardToRemove)
         {
             var index = cards.FindIndex(card => card == cardToRemove);
             cards.RemoveAt(index);

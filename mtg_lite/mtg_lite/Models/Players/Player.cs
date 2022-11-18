@@ -3,8 +3,10 @@ using mtg_lite.Models.Zones;
 using MTGO_lite.Models.Manas;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace mtg_lite.Models.Players
@@ -44,7 +46,12 @@ namespace mtg_lite.Models.Players
             
             if (card.IsPermanent)
             {
+                if (card.GetType()==typeof(Land))
+                {
+                    this.manaPool.Add(card.ManaCost);
+                }
                 battlefield.AddCard(card);
+                Debug.WriteLine(this.manaPool);
             }
             else
             {

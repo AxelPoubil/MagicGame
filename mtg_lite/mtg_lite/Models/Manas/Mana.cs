@@ -10,7 +10,6 @@ namespace MTGO_lite.Models.Manas
     public class Mana
     {
         private Dictionary<string, ManaColor> manaColors;
-
         public ManaColor White
         {
             get => manaColors[ManaWhite.Name];
@@ -54,6 +53,8 @@ namespace MTGO_lite.Models.Manas
             };
         }
 
+        public event EventHandler<object> manaChanged;
+
         public void Pay(Mana manaToPay)
         {
         }
@@ -64,6 +65,7 @@ namespace MTGO_lite.Models.Manas
             {
                 manaColors[manaColor.Key].Add(manaColor.Value);
             }
+            manaChanged.Invoke(this, mana);
         }
     }
 }

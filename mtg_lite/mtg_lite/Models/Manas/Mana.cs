@@ -53,10 +53,36 @@ namespace MTGO_lite.Models.Manas
             };
         }
 
-        public event EventHandler<object> manaChanged;
+        public event EventHandler<object>? manaChanged;
 
-        public void Pay(Mana manaToPay)
+        public bool Compare(Mana manaCard,Mana manaJoueur)
         {
+            //a modifier
+            if (manaCard.Black.Quantity<=manaJoueur.Black.Quantity&&
+                manaCard.White.Quantity<=manaJoueur.White.Quantity&&
+                manaCard.Blue.Quantity <= manaJoueur.Blue.Quantity &&
+                manaCard.Red.Quantity <= manaJoueur.Red.Quantity &&
+                manaCard.Green.Quantity <= manaJoueur.Green.Quantity &&
+                manaCard.Colorless.Quantity <= manaJoueur.Colorless.Quantity)
+                
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
+        }
+        public void Pay(Mana manaToPay, Mana manaPlayer)
+        {
+            //a modifier
+            manaPlayer.Black.Remove(manaToPay.Black.Quantity);
+            manaPlayer.White.Remove(manaToPay.White.Quantity);
+            manaPlayer.Red.Remove(manaToPay.Red.Quantity);
+            manaPlayer.Blue.Remove(manaToPay.Blue.Quantity);
+            manaPlayer.Green.Remove(manaToPay.Green.Quantity);
+            manaPlayer.Colorless.Remove(manaToPay.Colorless.Quantity);
         }
 
         public void Add(Mana mana)
@@ -65,7 +91,7 @@ namespace MTGO_lite.Models.Manas
             {
                 manaColors[manaColor.Key].Add(manaColor.Value);
             }
-            manaChanged.Invoke(this, mana);
+            manaChanged?.Invoke(this, mana);
         }
     }
 }

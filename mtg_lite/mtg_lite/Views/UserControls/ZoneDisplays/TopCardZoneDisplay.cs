@@ -1,4 +1,5 @@
-﻿using mtg_lite.Models.Cards;
+﻿
+using mtg_lite.Models.Cards;
 using mtg_lite.Models.Zones;
 using System;
 using System.Collections.Generic;

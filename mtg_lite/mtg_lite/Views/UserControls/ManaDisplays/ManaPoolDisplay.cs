@@ -20,9 +20,14 @@ namespace mtg_lite.Views.UserControls.ManaDisplays
         public ManaPoolDisplay()
         {
             InitializeComponent();
-            Subscribe();
         }
 
+        private void ChangeManaPool(Mana? newManaPool)
+        {
+            this.manaPool = newManaPool;
+            DisplayManaPool();
+            Subscribe();
+        }
         private void Subscribe()
         {
             if (manaPool is null) { return; }
@@ -34,15 +39,10 @@ namespace mtg_lite.Views.UserControls.ManaDisplays
             DisplayManaPool();
         }
 
-        private void ChangeManaPool(Mana? newManaPool)
-        {
-            this.manaPool = newManaPool;
-            DisplayManaPool();
-        }
-
         private void DisplayManaPool()
         {
             if(manaPool is null) { return; }
+            flowLayoutPanel.Controls.Clear();
             foreach (var mana in manaPool.ManaColors)
             {
                 var manaColorDisplay = new ManaColorDisplay();

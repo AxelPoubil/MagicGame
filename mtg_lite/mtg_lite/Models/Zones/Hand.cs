@@ -15,6 +15,15 @@ namespace mtg_lite.Models.Zones
         {
         }
 
+        public override void RemoveCard(Card cardToRemove)
+        {
+            // a modifier
+            if (player.ManaPool.Compare(cardToRemove.ManaCost,player.ManaPool)==true)
+            {
+                player.ManaPool.Pay(cardToRemove.ManaCost,player.ManaPool);
+                base.RemoveCard(cardToRemove);
+            }
+        }
 
     }
 }

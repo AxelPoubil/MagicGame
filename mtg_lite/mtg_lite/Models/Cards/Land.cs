@@ -28,5 +28,11 @@ namespace mtg_lite.Models.Cards
                     return null;
             }
         }
+
+        protected override void ChangeTapped(bool value)
+        {
+
+            base.ChangeTapped(value);
+        }
     }
 }

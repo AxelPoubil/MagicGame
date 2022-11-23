@@ -70,6 +70,7 @@ namespace mtg_lite.Views.UserControls.ZoneDisplays
         {
             if (battlefield is null) { return; }
             battlefield.CardsChanged += Battlefield_CardsChanged;
+            
         }
 
         private void Battlefield_CardsChanged(object? sender, List<Models.Cards.Card> cards)
@@ -79,6 +80,8 @@ namespace mtg_lite.Views.UserControls.ZoneDisplays
 
         private void cardsDisplay_CardClicked(object sender, Models.Cards.Card card)
         {
+            card.Tapped = true;
+            DisplayBattlefield();
         }
     }
 }

@@ -55,34 +55,26 @@ namespace MTGO_lite.Models.Manas
 
         public event EventHandler<object>? manaChanged;
 
-        public bool Compare(Mana manaCard,Mana manaJoueur)
+
+        public bool Pay(Mana manaToPay, Mana manaPlayer)
         {
-            //a modifier
-            if (manaCard.Black.Quantity<=manaJoueur.Black.Quantity&&
-                manaCard.White.Quantity<=manaJoueur.White.Quantity&&
-                manaCard.Blue.Quantity <= manaJoueur.Blue.Quantity &&
-                manaCard.Red.Quantity <= manaJoueur.Red.Quantity &&
-                manaCard.Green.Quantity <= manaJoueur.Green.Quantity &&
-                manaCard.Colorless.Quantity <= manaJoueur.Colorless.Quantity)
-                
+            bool resultat=false;
+            foreach (var manaColor in manaToPay.manaColors)
             {
-                return true;
+                string key = manaColor.Key;
+                if (manaToPay.manaColors[key] >= manaPlayer.manaColors[key]&& manaPlayer.manaColors[key]==0)
+                {
+                    resultat = false;
+                }
+                else
+                {
+                    manaColors[manaColor.Key].Remove(manaColor.Value);
+                    manaChanged?.Invoke(this, manaPlayer);
+                    resultat = true;
+                }
             }
-            else
-            {
-                return false;
-            }
+            return resultat;
             
-        }
-        public void Pay(Mana manaToPay, Mana manaPlayer)
-        {
-            //a modifier
-            manaPlayer.Black.Remove(manaToPay.Black.Quantity);
-            manaPlayer.White.Remove(manaToPay.White.Quantity);
-            manaPlayer.Red.Remove(manaToPay.Red.Quantity);
-            manaPlayer.Blue.Remove(manaToPay.Blue.Quantity);
-            manaPlayer.Green.Remove(manaToPay.Green.Quantity);
-            manaPlayer.Colorless.Remove(manaToPay.Colorless.Quantity);
         }
 
         public void Add(Mana mana)

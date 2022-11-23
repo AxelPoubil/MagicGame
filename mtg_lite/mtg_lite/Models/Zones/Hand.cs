@@ -14,16 +14,16 @@ namespace mtg_lite.Models.Zones
         public Hand(List<Card> cards, Player player) : base(cards, player)
         {
         }
-
         public override void RemoveCard(Card cardToRemove)
-        {
-            // a modifier
-            if (player.ManaPool.Compare(cardToRemove.ManaCost,player.ManaPool)==true)
+        {//////error ici
+            if (player.PlayCard(cardToRemove))
             {
-                player.ManaPool.Pay(cardToRemove.ManaCost,player.ManaPool);
                 base.RemoveCard(cardToRemove);
             }
+            
         }
+
+
 
     }
 }

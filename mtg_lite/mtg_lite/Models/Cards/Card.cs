@@ -37,9 +37,16 @@ namespace mtg_lite.Models.Cards
             this.isPermanent = isPermanent;
         }
 
-        private void ChangeTapped(bool value)
+        protected virtual void ChangeTapped(bool value)
         {
-            tapped = value;
+            if (this.tapped)
+            {
+                tapped = false;
+            }
+            else
+            {
+                tapped = value;
+            }
             TappedChanged?.Invoke(this, tapped);
         }
 

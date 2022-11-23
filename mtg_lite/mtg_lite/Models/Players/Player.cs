@@ -39,24 +39,29 @@ namespace mtg_lite.Models.Players
         {
             library.CardRemoved += Library_CardRemoved;
             hand.CardRemoved += Hand_CardRemoved;
+            foreach (Card card in Library.Cards)
+            {
+                card.TappedChanged += Land_TappedChanged;
+            }
         }
 
-        private void Hand_CardRemoved(object? sender, Card card)
+        private void Land_TappedChanged(object? sender, bool e)
         {
             
-            if (card.IsPermanent)
+            Card card = (Card)sender;
+            if (card.Tapped)
             {
                 if (card.GetType()==typeof(Land))
                 {
                     this.manaPool.Add(card.ManaCost);
                 }
-                battlefield.AddCard(card);
-                Debug.WriteLine(this.manaPool);
             }
-            else
-            {
-                graveyard.AddCard(card);
-            }
+            card.Picture.RotateFlip(RotateFlipType.Rotate180FlipX);
+        }
+
+        private void Hand_CardRemoved(object? sender, Card card)
+        {
+           PlayCard(card);
         }
 
         private void Library_CardRemoved(object? sender, Cards.Card card)
@@ -64,8 +69,33 @@ namespace mtg_lite.Models.Players
             hand.AddCard(card);
         }
 
-        public void PlayCard(Card card)
+        public bool PlayCard(Card card)
         {
+            if (card.IsPermanent)
+            {
+                if (card.GetType() == typeof(Land))
+                {
+                    this.manaPool.Add(card.ManaCost);
+                    battlefield.AddCard(card);
+                    return true;
+
+                }
+                else
+                {
+                    if (this.manaPool.Pay(card.ManaCost, this.ManaPool))
+                    {
+                        battlefield.AddCard(card);
+                        return true;
+                    }
+                    return false;
+                }
+                
+            }
+            else
+            {
+                graveyard.AddCard(card);
+                return true;
+            }
         }
     }
 }

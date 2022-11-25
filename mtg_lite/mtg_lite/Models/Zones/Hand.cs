@@ -14,14 +14,7 @@ namespace mtg_lite.Models.Zones
         public Hand(List<Card> cards, Player player) : base(cards, player)
         {
         }
-        public override void RemoveCard(Card cardToRemove)
-        {//////error ici
-            if (player.PlayCard(cardToRemove))
-            {
-                base.RemoveCard(cardToRemove);
-            }
-            
-        }
+
 
 
 

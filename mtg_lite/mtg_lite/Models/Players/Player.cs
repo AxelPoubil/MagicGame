@@ -69,9 +69,32 @@ namespace mtg_lite.Models.Players
             hand.AddCard(card);
         }
 
-        public bool PlayCard(Card card)
+        public void PlayCard(Card card)
         {
-            if (card.IsPermanent)
+          
+            if (card.GetType() == typeof(Land))
+            {
+                battlefield.AddCard(card);
+            }
+            else if(this.manaPool.Pay(card.ManaCost, this.ManaPool))
+            {
+                if (card.IsPermanent)
+                {
+                    battlefield.AddCard(card);
+                }
+                else
+                {
+                    graveyard.AddCard(card);
+                }
+
+            }
+            else
+            {
+                throw new Exception();
+            }
+            
+
+            /*if (card.IsPermanent)
             {
                 if (card.GetType() == typeof(Land))
                 {
@@ -95,7 +118,7 @@ namespace mtg_lite.Models.Players
             {
                 graveyard.AddCard(card);
                 return true;
-            }
+            }*/
         }
     }
 }

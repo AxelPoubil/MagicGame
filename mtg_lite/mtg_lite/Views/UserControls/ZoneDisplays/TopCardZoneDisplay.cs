@@ -73,8 +73,7 @@ namespace mtg_lite.Views.UserControls.ZoneDisplays
             }
             catch (Exception ex)
             {
-                //ne pas ooublier de changer le message.
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Pioche vide");
             }
             
             

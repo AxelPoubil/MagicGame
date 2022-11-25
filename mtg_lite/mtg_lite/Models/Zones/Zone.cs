@@ -47,9 +47,9 @@ namespace mtg_lite.Models.Zones
 
         public virtual  void  RemoveCard(Card cardToRemove)
         {
+            CardRemoved?.Invoke(this, cardToRemove);
             var index = cards.FindIndex(card => card == cardToRemove);
             cards.RemoveAt(index);
-            CardRemoved?.Invoke(this, cardToRemove);
             CardsChanged?.Invoke(this, cards);
         }
 

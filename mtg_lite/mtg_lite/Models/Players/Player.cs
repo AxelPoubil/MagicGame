@@ -92,33 +92,6 @@ namespace mtg_lite.Models.Players
             {
                 throw new Exception();
             }
-            
-
-            /*if (card.IsPermanent)
-            {
-                if (card.GetType() == typeof(Land))
-                {
-                    this.manaPool.Add(card.ManaCost);
-                    battlefield.AddCard(card);
-                    return true;
-
-                }
-                else
-                {
-                    if (this.manaPool.Pay(card.ManaCost, this.ManaPool))
-                    {
-                        battlefield.AddCard(card);
-                        return true;
-                    }
-                    return false;
-                }
-                
-            }
-            else
-            {
-                graveyard.AddCard(card);
-                return true;
-            }*/
         }
     }
 }

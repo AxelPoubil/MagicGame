@@ -45,7 +45,7 @@ namespace mtg_lite.Models.Zones
             CardsChanged?.Invoke(this, cards);
         }
 
-        public virtual  void  RemoveCard(Card cardToRemove)
+        public  void  RemoveCard(Card cardToRemove)
         {
             CardRemoved?.Invoke(this, cardToRemove);
             var index = cards.FindIndex(card => card == cardToRemove);
@@ -53,14 +53,12 @@ namespace mtg_lite.Models.Zones
             CardsChanged?.Invoke(this, cards);
         }
 
-        protected void RemoveTopCard()
-        {
-            cards.RemoveAt(cards.Count - 1);
-        }
-
         public override string ToString()
         {
             return $"{Name} ({cards.Count})";
+        }
+        public virtual void CliquerCard(Card card)
+        {
         }
     }
 }

@@ -14,7 +14,10 @@ namespace mtg_lite.Models.Zones
         public Hand(List<Card> cards, Player player) : base(cards, player)
         {
         }
-
+        public override void CliquerCard(Card card)
+        {
+            this.RemoveCard(card);
+        }
 
 
 

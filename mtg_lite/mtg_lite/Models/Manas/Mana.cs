@@ -68,6 +68,7 @@ namespace MTGO_lite.Models.Manas
                     && manaPlayer.manaColors[key] != 0 && manaToPay.manaColors[key] != 0)
                     {
                         manaColors[manaColor.Key].Remove(manaColor.Value);
+                        manaColors["Colorless"].Remove(manaColor.Value);
                         manaChanged?.Invoke(this, manaPlayer);
                         resultat = true;
                         break;
@@ -75,12 +76,46 @@ namespace MTGO_lite.Models.Manas
                 }
                 else
                 {
-                    if (manaToPay.manaColors[key] <= manaPlayer.manaColors[key]
-                    && manaPlayer.manaColors[key] != 0 && manaToPay.manaColors[key] != 0)
+                    if (manaToPay.manaColors["Colorless"] <= manaPlayer.manaColors[key]
+                    && manaPlayer.manaColors["Colorless"] != 0 && manaToPay.manaColors[key] != 0)
                     {
-                        manaColors[manaColor.Key].Remove(manaColor.Value);
-                        manaChanged?.Invoke(this, manaPlayer);
-                        resultat = true;
+                        int manaPayValue = manaToPay.manaColors["Colorless"].Quantity;
+                        foreach (var mana in manaPlayer.manaColors)
+                        {
+                            if (mana.Value >= manaColor.Value && mana.Value > 0)
+                            {
+                                manaColors[mana.Key].Remove(manaColor.Value);
+                                manaColors["Colorless"].Remove(manaColor.Value);
+                                manaChanged?.Invoke(this, manaPlayer);
+                                resultat = true;
+                                break;
+                            }
+
+                            int manaColorValue = manaPlayer.manaColors[mana.Key].Quantity;
+                            
+                            
+                            if (manaColorValue==manaPayValue && manaColorValue>0)
+                            {
+                                manaPayValue -= manaColorValue;
+                                manaColors[mana.Key].Remove(manaColorValue);
+                                manaColors["Colorless"].Remove(manaColorValue);
+                            }
+                            else if (manaColorValue > 0 && manaPayValue > 0)
+                            {
+                                manaPayValue -= manaColorValue;
+                                manaColors[mana.Key].Remove(manaPayValue);
+                                manaColors["Colorless"].Remove(manaPayValue);
+                            }
+                            else if (manaPayValue == 0)
+                            {
+                                manaChanged?.Invoke(this, manaPlayer);
+                                resultat = true;
+                                break;
+                            }
+
+
+                        }
+                        
                     }
                 }
                 

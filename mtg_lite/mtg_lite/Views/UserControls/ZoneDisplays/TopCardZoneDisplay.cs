@@ -66,9 +66,7 @@ namespace mtg_lite.Views.UserControls.ZoneDisplays
                     {
                         return;
                     }
-                    var index = zone.Cards.FindIndex(card => card == cardt);
-                    cardt = zone.Cards[index - 1];
-                    zone.RemoveCard(cardt);
+                    this.zone.CliquerCard(cardt);
                 }
             }
             catch (Exception ex)

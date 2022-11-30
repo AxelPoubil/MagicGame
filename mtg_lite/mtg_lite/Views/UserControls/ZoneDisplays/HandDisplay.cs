@@ -58,7 +58,7 @@ namespace mtg_lite.Views.UserControls.ZoneDisplays
         {
             try
             {
-                hand.RemoveCard(card);
+                hand.CliquerCard(card);
             }
             catch (Exception ex)
             {

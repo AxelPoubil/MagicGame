@@ -14,5 +14,9 @@ namespace mtg_lite.Models.Zones
         public Battlefield(List<Card> cards, Player player) : base(cards, player)
         {
         }
+        public override void CliquerCard(Card card)
+        {
+            card.Tapped = true;
+        }
     }
 }

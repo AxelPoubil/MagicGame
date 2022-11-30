@@ -76,7 +76,7 @@ namespace mtg_lite.Models.Players
             {
                 battlefield.AddCard(card);
             }
-            else if(this.manaPool.Pay(card.ManaCost, this.ManaPool))
+            else if(this.manaPool.Pay(card.ManaCost))
             {
                 if (card.IsPermanent)
                 {
@@ -90,7 +90,7 @@ namespace mtg_lite.Models.Players
             }
             else
             {
-                throw new Exception();
+                throw new Exception("Pas assez de mana");
             }
         }
     }

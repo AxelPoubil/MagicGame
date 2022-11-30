@@ -56,70 +56,81 @@ namespace MTGO_lite.Models.Manas
         public event EventHandler<object>? manaChanged;
 
 
-        public bool Pay(Mana manaToPay, Mana manaPlayer)
+        public bool Pay(Mana manaToPay)
         {
             bool resultat=false;
+            int total=0;
             foreach (var manaColor in manaToPay.manaColors)
             {
                 string key = manaColor.Key;
-                if (key!= "Colorless")
+                if (key == "Colorless")
                 {
-                    if (manaToPay.manaColors[key] <= manaPlayer.manaColors[key]
-                    && manaPlayer.manaColors[key] != 0 && manaToPay.manaColors[key] != 0)
-                    {
-                        manaColors[manaColor.Key].Remove(manaColor.Value);
-                        manaColors["Colorless"].Remove(manaColor.Value);
-                        manaChanged?.Invoke(this, manaPlayer);
-                        resultat = true;
-                        break;
-                    }
+                    continue;
                 }
-                else
+                total += manaToPay.manaColors[key].Quantity;
+                if (!(manaToPay.manaColors[key] <= this.manaColors[key]))
                 {
-                    if (manaToPay.manaColors["Colorless"] <= manaPlayer.manaColors[key]
-                    && manaPlayer.manaColors["Colorless"] != 0 && manaToPay.manaColors[key] != 0)
-                    {
-                        int manaPayValue = manaToPay.manaColors["Colorless"].Quantity;
-                        foreach (var mana in manaPlayer.manaColors)
-                        {
-                            if (mana.Value >= manaColor.Value && mana.Value > 0)
-                            {
-                                manaColors[mana.Key].Remove(manaColor.Value);
-                                manaColors["Colorless"].Remove(manaColor.Value);
-                                manaChanged?.Invoke(this, manaPlayer);
-                                resultat = true;
-                                break;
-                            }
-
-                            int manaColorValue = manaPlayer.manaColors[mana.Key].Quantity;
-                            
-                            
-                            if (manaColorValue==manaPayValue && manaColorValue>0)
-                            {
-                                manaPayValue -= manaColorValue;
-                                manaColors[mana.Key].Remove(manaColorValue);
-                                manaColors["Colorless"].Remove(manaColorValue);
-                            }
-                            else if (manaColorValue > 0 && manaPayValue > 0)
-                            {
-                                manaPayValue -= manaColorValue;
-                                manaColors[mana.Key].Remove(manaPayValue);
-                                manaColors["Colorless"].Remove(manaPayValue);
-                            }
-                            else if (manaPayValue == 0)
-                            {
-                                manaChanged?.Invoke(this, manaPlayer);
-                                resultat = true;
-                                break;
-                            }
-
-
-                        }
-                        
-                    }
+                    return false;
                 }
                 
             }
+            if (this.Colorless.Quantity-total<manaToPay.Colorless.Quantity)
+            {
+                return false;
+            }
+
+            foreach (var manaColor in manaToPay.manaColors)
+            {
+                string key = manaColor.Key;
+                if (key != "Colorless" && manaToPay.manaColors[key] <= this.manaColors[key] )
+                {
+                    manaColors[manaColor.Key].Remove(manaColor.Value);
+                    manaColors["Colorless"].Remove(manaColor.Value);
+                }
+                if (manaToPay.manaColors["Colorless"] <= this.manaColors[key]
+                    && this.manaColors["Colorless"] != 0 && manaToPay.manaColors[key] != 0)
+                {
+                    int manaPayValue = manaToPay.manaColors["Colorless"].Quantity;
+                    foreach (var mana in this.manaColors)
+                    {
+
+                        if (mana.Value >= manaColor.Value && mana.Value > 0)
+                        {
+                            manaColors[mana.Key].Remove(manaColor.Value);
+                            manaColors["Colorless"].Remove(manaColor.Value);
+                            manaChanged?.Invoke(this, this);
+                            return true;
+                        }
+
+                        int manaColorValue = this.manaColors[mana.Key].Quantity;
+
+
+                        if (manaColorValue == manaPayValue && manaColorValue > 0)
+                        {
+                            manaPayValue -= manaColorValue;
+                            manaColors[mana.Key].Remove(manaColorValue);
+                            manaColors["Colorless"].Remove(manaColorValue);
+                        }
+                        else if (manaColorValue > 0 && manaPayValue > 0)
+                        {
+                            manaPayValue -= manaColorValue;
+                            manaColors[mana.Key].Remove(manaPayValue);
+                            manaColors["Colorless"].Remove(manaPayValue);
+                        }
+                        else if (manaPayValue == 0)
+                        {
+                            manaChanged?.Invoke(this, this);
+                            resultat = true;
+                            break;
+                        }
+
+
+                    }
+
+                }
+            }
+
+            
             return resultat;
             
         }

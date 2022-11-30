@@ -17,6 +17,8 @@ namespace MTGO_lite.Models.Manas.ManaColors
         public abstract string ColorName { get; }
         public abstract Bitmap Icon { get; }
 
+
+
         protected ManaColor(int quantity)
         {
             this.quantity = quantity;

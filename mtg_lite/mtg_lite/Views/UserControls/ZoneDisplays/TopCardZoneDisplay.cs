@@ -1,4 +1,6 @@
-﻿using mtg_lite.Models.Zones;
+﻿
+using mtg_lite.Models.Cards;
+using mtg_lite.Models.Zones;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -54,8 +56,26 @@ namespace mtg_lite.Views.UserControls.ZoneDisplays
             DisplayZone();
         }
 
-        private void cardDisplay_CardClicked(object sender, Models.Cards.Card card)
+        private void cardDisplay_CardClicked(object sender, Models.Cards.Card cardt)
         {
+            try
+            {
+                if (zone != null)
+                {
+                    if (zone.Name != "Library")
+                    {
+                        return;
+                    }
+                    this.zone.CliquerCard(cardt);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Pioche vide");
+            }
+            
+            
+            
         }
     }
 }

@@ -56,6 +56,16 @@ namespace mtg_lite.Views.UserControls.ZoneDisplays
 
         private void rowOfCardsDisplay_CardClicked(object sender, Models.Cards.Card card)
         {
+            try
+            {
+                hand.CliquerCard(card);
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show("Pas assez de mana");
+            }
+           
         }
     }
 }

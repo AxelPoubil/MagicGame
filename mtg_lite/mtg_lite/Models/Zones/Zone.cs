@@ -15,12 +15,12 @@ namespace mtg_lite.Models.Zones
         protected List<Card> cards;
         protected Player player;
 
-        public List<Card> Cards { get { return cards; } }
-        public string Name { get => "Zone"; }
+        public virtual List<Card> Cards { get { return cards; } }
+        public virtual string Name { get => "Zone"; }
         public virtual Card TopCard {
             get
             {
-                if (cards.Count == 0)
+                if (cards.Count == 1 && Name == "Library" || cards.Count == 0)
                 {
                     return new DarkCardBack();
                 }
@@ -28,9 +28,9 @@ namespace mtg_lite.Models.Zones
             }
         }
 
-        public event EventHandler<List<Card>>? CardsChanged;
-        public event EventHandler<Card>? CardAdded;
-        public event EventHandler<Card>? CardRemoved;
+        public virtual event EventHandler<List<Card>>? CardsChanged;
+        public virtual event EventHandler<Card>? CardAdded;
+        public virtual event EventHandler<Card>? CardRemoved;
 
         public Zone(List<Card> cards, Player player)
         {
@@ -45,22 +45,20 @@ namespace mtg_lite.Models.Zones
             CardsChanged?.Invoke(this, cards);
         }
 
-        public void RemoveCard(Card cardToRemove)
+        public  void  RemoveCard(Card cardToRemove)
         {
+            CardRemoved?.Invoke(this, cardToRemove);
             var index = cards.FindIndex(card => card == cardToRemove);
             cards.RemoveAt(index);
-            CardRemoved?.Invoke(this, cardToRemove);
             CardsChanged?.Invoke(this, cards);
-        }
-
-        protected void RemoveTopCard()
-        {
-            cards.RemoveAt(cards.Count - 1);
         }
 
         public override string ToString()
         {
             return $"{Name} ({cards.Count})";
+        }
+        public virtual void CliquerCard(Card card)
+        {
         }
     }
 }

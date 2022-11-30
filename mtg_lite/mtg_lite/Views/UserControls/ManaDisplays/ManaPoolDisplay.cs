@@ -26,11 +26,23 @@ namespace mtg_lite.Views.UserControls.ManaDisplays
         {
             this.manaPool = newManaPool;
             DisplayManaPool();
+            Subscribe();
+        }
+        private void Subscribe()
+        {
+            if (manaPool is null) { return; }
+            manaPool.manaChanged += ManaPool_manaChanged1;
+        }
+
+        private void ManaPool_manaChanged1(object? sender, object e)
+        {
+            DisplayManaPool();
         }
 
         private void DisplayManaPool()
         {
             if(manaPool is null) { return; }
+            flowLayoutPanel.Controls.Clear();
             foreach (var mana in manaPool.ManaColors)
             {
                 var manaColorDisplay = new ManaColorDisplay();

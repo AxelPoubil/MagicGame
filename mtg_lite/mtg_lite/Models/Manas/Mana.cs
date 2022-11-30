@@ -10,7 +10,6 @@ namespace MTGO_lite.Models.Manas
     public class Mana
     {
         private Dictionary<string, ManaColor> manaColors;
-
         public ManaColor White
         {
             get => manaColors[ManaWhite.Name];
@@ -54,8 +53,75 @@ namespace MTGO_lite.Models.Manas
             };
         }
 
-        public void Pay(Mana manaToPay)
+        public event EventHandler<object>? manaChanged;
+
+
+        public bool Pay(Mana manaToPay, Mana manaPlayer)
         {
+            bool resultat=false;
+            foreach (var manaColor in manaToPay.manaColors)
+            {
+                string key = manaColor.Key;
+                if (key!= "Colorless")
+                {
+                    if (manaToPay.manaColors[key] <= manaPlayer.manaColors[key]
+                    && manaPlayer.manaColors[key] != 0 && manaToPay.manaColors[key] != 0)
+                    {
+                        manaColors[manaColor.Key].Remove(manaColor.Value);
+                        manaColors["Colorless"].Remove(manaColor.Value);
+                        manaChanged?.Invoke(this, manaPlayer);
+                        resultat = true;
+                        break;
+                    }
+                }
+                else
+                {
+                    if (manaToPay.manaColors["Colorless"] <= manaPlayer.manaColors[key]
+                    && manaPlayer.manaColors["Colorless"] != 0 && manaToPay.manaColors[key] != 0)
+                    {
+                        int manaPayValue = manaToPay.manaColors["Colorless"].Quantity;
+                        foreach (var mana in manaPlayer.manaColors)
+                        {
+                            if (mana.Value >= manaColor.Value && mana.Value > 0)
+                            {
+                                manaColors[mana.Key].Remove(manaColor.Value);
+                                manaColors["Colorless"].Remove(manaColor.Value);
+                                manaChanged?.Invoke(this, manaPlayer);
+                                resultat = true;
+                                break;
+                            }
+
+                            int manaColorValue = manaPlayer.manaColors[mana.Key].Quantity;
+                            
+                            
+                            if (manaColorValue==manaPayValue && manaColorValue>0)
+                            {
+                                manaPayValue -= manaColorValue;
+                                manaColors[mana.Key].Remove(manaColorValue);
+                                manaColors["Colorless"].Remove(manaColorValue);
+                            }
+                            else if (manaColorValue > 0 && manaPayValue > 0)
+                            {
+                                manaPayValue -= manaColorValue;
+                                manaColors[mana.Key].Remove(manaPayValue);
+                                manaColors["Colorless"].Remove(manaPayValue);
+                            }
+                            else if (manaPayValue == 0)
+                            {
+                                manaChanged?.Invoke(this, manaPlayer);
+                                resultat = true;
+                                break;
+                            }
+
+
+                        }
+                        
+                    }
+                }
+                
+            }
+            return resultat;
+            
         }
 
         public void Add(Mana mana)
@@ -63,7 +129,9 @@ namespace MTGO_lite.Models.Manas
             foreach (var manaColor in mana.manaColors)
             {
                 manaColors[manaColor.Key].Add(manaColor.Value);
+                manaColors["Colorless"].Add(manaColor.Value);
             }
+            manaChanged?.Invoke(this, mana);
         }
     }
 }

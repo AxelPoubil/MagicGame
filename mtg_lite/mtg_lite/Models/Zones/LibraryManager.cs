@@ -14,6 +14,28 @@ namespace mtg_lite.Models.Zones
 
         static LibraryManager()
         {
+            libraries.Add("Red", new List<Card>()
+            {
+                Sorcery.CreerCarte("False Peace"),
+                Sorcery.CreerCarte("Gaea's Blessing"),
+                Sorcery.CreerCarte("Glimpse The Unthinkable"),
+                Land.CreerCarte("Swamp"),
+                Land.CreerCarte("Plains"),
+                Land.CreerCarte("Mountain"),
+                Creature.CreerCarte("Savannah Lions"),
+                Creature.CreerCarte("Scathe Zombies"),
+                Creature.CreerCarte("Spinned Karok"),
+                Creature.CreerCarte("Spinned Karok")
+            });
+            libraries.Add("Blue", new List<Card>()
+            {
+                
+            });
+            libraries.Add("Green", new List<Card>()
+            {
+               
+            });
+
         }
 
         public static List<Card> GetCards(string libraryName)
@@ -24,5 +46,9 @@ namespace mtg_lite.Models.Zones
             }
             return new List<Card>();
         }
+
+
+
+
     }
 }

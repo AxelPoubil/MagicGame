@@ -46,5 +46,30 @@ namespace MTGO_lite.Models.Manas.ManaColors
         {
             return $"{ColorName}: {Quantity}";
         }
+
+        public static bool operator >=(ManaColor mana1, ManaColor mana2)
+        {
+            return mana1.quantity >= mana2.quantity;
+        }
+        public static bool operator <=(ManaColor mana1, ManaColor mana2)
+        {
+            return mana1.quantity <= mana2.quantity;
+        }
+        public static bool operator ==(ManaColor mana1, int value)
+        {
+            return mana1.quantity == value;
+        }
+        public static bool operator !=(ManaColor mana1, int value)
+        {
+            return mana1.quantity != value;
+        }
+        public static bool operator <(ManaColor mana1, int value)
+        {
+            return mana1.quantity < value;
+        }
+        public static bool operator >(ManaColor mana1, int value)
+        {
+            return mana1.quantity > value;
+        }
     }
 }

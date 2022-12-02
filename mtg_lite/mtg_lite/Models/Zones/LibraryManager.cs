@@ -24,7 +24,7 @@ namespace mtg_lite.Models.Zones
                 Land.CreerCarte("Mountain"),
                 Creature.CreerCarte("Savannah Lions"),
                 Creature.CreerCarte("Scathe Zombies"),
-                Creature.CreerCarte("Spinned Karok"),
+                Creature.CreerCarte("Scathe Zombies"),
                 Creature.CreerCarte("Spinned Karok")
             });
             libraries.Add("Blue", new List<Card>()

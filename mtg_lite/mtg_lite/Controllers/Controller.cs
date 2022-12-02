@@ -18,10 +18,5 @@ namespace mtg_lite.Controllers
         {
             player = new Player("Red");
         }
-        public void Mafonction()
-        {
-         //Test   
-        }
-
     }
 }
